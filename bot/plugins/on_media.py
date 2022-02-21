@@ -20,3 +20,4 @@ async def on_media_handler(c: Client, m: "types.Message"):
     dosya = m.document
     isim = dosya.file_name
     await m.reply_text(text=isim,quote=True)
+    return isim
