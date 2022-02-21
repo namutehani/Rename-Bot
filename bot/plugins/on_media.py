@@ -21,5 +21,5 @@ async def on_media_handler(c: Client, m: "types.Message"):
     if dosya:
         isim1 = dosya.file_name
         isim = isim1.replace(".","@tayaykspdf.")
-    await m.reply_text(text=isim,quote=True)
-    return isim
+        await m.reply_text(text=isim,quote=True)
+        return isim
