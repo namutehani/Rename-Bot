@@ -179,11 +179,12 @@ async def handle_big_rename(
     else:
         caption = ""
     parse_mode = "Markdown"
-    while True:
-        try:
-            r = await c.send(
-            raw.functions.messages.SendMedia(
-                    peer=await c.resolve_peer(m.chat.id),
+    try:
+        """
+        
+        r = await c.send(
+        raw.functions.messages.SendMedia(
+                   peer=await c.resolve_peer(m.chat.id),
                     media=media,
                     silent=None,
                     reply_to_msg_id=None,
@@ -193,8 +194,10 @@ async def handle_big_rename(
                     **await utils.parse_text_entities(c, caption, parse_mode, None)
                 )
             )
-            await rm_dir(f"{Config.DOWNLOAD_DIR}/{m.from_user.id}/{m.message_id}/")
-        except Exception as _err:
+        """
+        r = await c.send_document(m.chat.id,media)
+        await rm_dir(f"{Config.DOWNLOAD_DIR}/{m.from_user.id}/{m.message_id}/")
+    except Exception as _err:
             Config.LOGGER.getLogger(__name__).error(_err)
             Config.LOGGER.getLogger(__name__).info(f"{traceback.format_exc()}")
     else:
