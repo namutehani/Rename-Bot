@@ -180,7 +180,7 @@ async def handle_big_rename(
     parse_mode = "Markdown"
 
     try:
-        if True:
+        if FileId:
             r = await c.send(
                 raw.functions.messages.SendMedia(
                     peer=await c.resolve_peer(m.chat.id),
