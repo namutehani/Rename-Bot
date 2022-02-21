@@ -88,8 +88,8 @@ async def rename_handler(c: Client, m: Message):
                 c_time
             )
         )
-        if not file_id:
-            return await editable.edit("Failed to Rename!\n\n"
+        #if not file_id:
+         #   return await editable.edit("Failed to Rename!\n\n"
                                        "Maybe your file corrupted :(")
         await handle_big_rename(c, m, file_id, dosya_isim, editable, file_type)
     except Exception as err:
