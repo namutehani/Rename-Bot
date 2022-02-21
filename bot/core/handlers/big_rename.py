@@ -10,6 +10,7 @@ from pyrogram import (
 from pyrogram.types import (
     Message
 )
+from pyrogram.file_id import FileId
 from configs import Config
 from bot.core.utils.rm import rm_dir
 from bot.core.fixes import fix_thumbnail
