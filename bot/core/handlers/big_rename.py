@@ -173,7 +173,7 @@ async def handle_big_rename(
     if (not _db_caption) and (apply_caption is True):
         caption = m.reply_to_message.caption.markdown \
             if m.reply_to_message.caption \
-            else "**Developer: @AbirHasan2005**"
+            else "**Developer: @namutehani**"
     elif _db_caption and (apply_caption is True):
         caption = _db_caption
     else:
@@ -181,7 +181,7 @@ async def handle_big_rename(
     parse_mode = "Markdown"
     while True:
         try:
-            r = await self.send(
+            r = await c.send(
             raw.functions.messages.SendMedia(
                     peer=await c.resolve_peer(m.chat.id),
                     media=media,
