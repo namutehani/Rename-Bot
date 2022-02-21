@@ -23,11 +23,13 @@ from bot.core.db.add import add_user_to_database
 from bot.core.handlers.not_big import handle_not_big
 from bot.core.handlers.time_gap import check_time_gap
 from bot.core.handlers.big_rename import handle_big_rename
+from bot.plugins.on_media import on_media_handler
 
 
 @Client.on_message(filters.command(["rename", "r"]) & filters.private & ~filters.edited)
 async def rename_handler(c: Client, m: Message):
     # Checks
+    dosya_isim = on_media_handler()
     if not m.from_user:
         return await m.reply_text("I don't know about you sar :(")
     if m.from_user.id not in Config.PRO_USERS:
@@ -39,11 +41,9 @@ async def rename_handler(c: Client, m: Message):
                                quote=True)
             return
     await add_user_to_database(c, m)
-    if (not m.reply_to_message) or (not m.reply_to_message.media) or (not get_file_attr(m.reply_to_message)):
-        return await m.reply_text("Reply to any document/video/audio to rename it!", quote=True)
-
     # Proceed
-    editable = await m.reply_text("Now send me new file name!", quote=True)
+    editable = await m.reply_text("Hazırlanıyor!", quote=True)
+    """
     user_input_msg: Message = await c.listen(m.chat.id)
     if user_input_msg.text is None:
         await editable.edit("Process Cancelled!")
@@ -60,6 +60,7 @@ async def rename_handler(c: Client, m: Message):
     else:
         file_name = user_input_msg.text[:255]
     await editable.edit("Please Wait ...")
+    """
     is_big = get_media_file_size(m.reply_to_message) > (10 * 1024 * 1024)
     if not is_big:
         _default_thumb_ = await db.get_thumbnail(m.from_user.id)
@@ -68,7 +69,7 @@ async def rename_handler(c: Client, m: Message):
             _default_thumb_ = _m_attr.thumbs[0].file_id \
                 if (_m_attr and _m_attr.thumbs) \
                 else None
-        await handle_not_big(c, m, get_media_file_id(m.reply_to_message), file_name,
+        await handle_not_big(c, m, get_media_file_id(m.reply_to_message), dosya_isim,
                              editable, get_file_type(m.reply_to_message), _default_thumb_)
         return
     file_type = get_file_type(m.reply_to_message)
@@ -78,7 +79,7 @@ async def rename_handler(c: Client, m: Message):
         file_id = await c.custom_upload(
             file_id=_c_file_id,
             file_size=get_media_file_size(m.reply_to_message),
-            file_name=file_name,
+            file_name=dosya_isim,
             progress=progress_for_pyrogram,
             progress_args=(
                 "Uploading ...\n"
@@ -90,7 +91,7 @@ async def rename_handler(c: Client, m: Message):
         if not file_id:
             return await editable.edit("Failed to Rename!\n\n"
                                        "Maybe your file corrupted :(")
-        await handle_big_rename(c, m, file_id, file_name, editable, file_type)
+        await handle_big_rename(c, m, file_id, dosya_isim, editable, file_type)
     except Exception as err:
         await editable.edit("Failed to Rename File!\n\n"
                             f"**Error:** `{err}`\n\n"
