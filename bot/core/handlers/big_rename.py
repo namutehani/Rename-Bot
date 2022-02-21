@@ -194,8 +194,8 @@ async def handle_big_rename(
                 )
             )
             await rm_dir(f"{Config.DOWNLOAD_DIR}/{m.from_user.id}/{m.message_id}/")
-    except Exception as _err:
-        Config.LOGGER.getLogger(__name__).error(_err)
-        Config.LOGGER.getLogger(__name__).info(f"{traceback.format_exc()}")
+        except Exception as _err:
+            Config.LOGGER.getLogger(__name__).error(_err)
+            Config.LOGGER.getLogger(__name__).info(f"{traceback.format_exc()}")
     else:
         await editable.edit("Uploaded Successfully!")
