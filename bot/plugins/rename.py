@@ -29,7 +29,7 @@ from bot.plugins.on_media import on_media_handler
 @Client.on_message(filters.command(["rename", "r"]) & filters.private & ~filters.edited)
 async def rename_handler(c: Client, m: Message):
     # Checks
-    dosya_isim = on_media_handler(c,m)
+    dosya_isim = await on_media_handler(c,m)
     if not m.from_user:
         return await m.reply_text("I don't know about you sar :(")
     if m.from_user.id not in Config.PRO_USERS:
