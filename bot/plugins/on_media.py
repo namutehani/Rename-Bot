@@ -17,6 +17,6 @@ async def on_media_handler(c: Client, m: "types.Message"):
         return await m.reply_text("I don't know about you sar :(")
     await add_user_to_database(c, m)
     await asyncio.sleep(3)
-    dosya m.document
+    dosya = m.document
     isim = dosya.file_name
-    await c.reply_text(text=isim,quote=True)
+    await m.reply_text(text=isim,quote=True)
